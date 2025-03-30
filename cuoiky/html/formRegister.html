@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Ký</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            padding: 50px;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px gray;
+            width: 320px;
+            margin: auto;
+        }
+        input, select {
+            width: 90%;
+            padding: 8px;
+            margin: 8px 0;
+            font-size: 14px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            font-size: 14px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Đăng Ký</h2>
+        <input type="text" id="regUsername" placeholder="Tên đăng nhập">
+        <input type="password" id="regPassword" placeholder="Mật khẩu">
+        <select id="role" onchange="toggleMaBaoMau()">
+            <option value="parent">Phụ huynh</option>
+            <option value="teacher">Giáo viên</option>
+        </select>
+        <input type="text" id="maBaoMau" placeholder="Mã bảo mẫu" style="display:none;">
+        <button onclick="register()">Đăng Ký</button>
+        <p>Đã có tài khoản? <a href="../Index_loginform.html">Đăng nhập</a></p>
+    </div>
+
+    <script src="../js/script.js"></script>
+</body>
+</html>

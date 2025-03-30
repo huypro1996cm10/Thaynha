@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Quản Lý - Admin</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body onload="checkRole('admin')">
+    <header>
+        <h1>Quản Trị Hệ Thống</h1>
+        <nav>
+            <ul>
+                <li><a href="formhomeA.html">Trang Chủ</a></li>
+                <li><a href="./A/UserMg.html">Quản lý Người Dùng</a></li>
+                <li><a href="finance.html">Quản lý Tài Chính</a></li>
+                <li><a href="report.html">Báo Cáo & Phân Tích</a></li>
+                <li><a href="settings.html">Cài Đặt</a></li>
+                <li><a href="#" onclick="logout()">Đăng Xuất</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h2>Xin chào, Quản Trị Viên!</h2>
+        <p>Chọn một chức năng để quản lý hệ thống.</p>
+    </main>
+    <script>
+        let users = [
+            { id: 1, name: "Nguyễn Văn A", email: "a@example.com", role: "Admin" },
+            { id: 2, name: "Trần Thị B", email: "b@example.com", role: "User" },
+            { id: 3, name: "Lê Văn C", email: "c@example.com", role: "User" }
+        ];
+
+        function loadUsers() {
+            let tableBody = document.getElementById("userTableBody");
+            tableBody.innerHTML = "";
+            users.forEach(user => {
+                let row = `<tr>
+                    <td>${user.id}</td>
+                    <td>${user.name}</td>
+                    <td>${user.email}</td>
+                    <td>${user.role}</td>
+                    <td>
+                        <button onclick="editUser(${user.id})">Sửa</button>
+                        <button onclick="deleteUser(${user.id})">Xóa</button>
+                    </td>
+                </tr>`;
+                tableBody.innerHTML += row;
+            });
+        }
+
+        function addUser() {
+            let newName = prompt("Nhập tên người dùng:");
+            let newEmail = prompt("Nhập email:");
+            let newRole = prompt("Nhập vai trò (Admin/User):");
+            if (newName && newEmail && newRole) {
+                let newUser = {
+                    id: users.length + 1,
+                    name: newName,
+                    email: newEmail,
+                    role: newRole
+                };
+                users.push(newUser);
+                loadUsers();
+            }
+        }
+
+        function editUser(id) {
+            let user = users.find(u => u.id === id);
+            if (user) {
+                let newName = prompt("Nhập tên mới:", user.name);
+                let newEmail = prompt("Nhập email mới:", user.email);
+                let newRole = prompt("Nhập vai trò mới (Admin/User):", user.role);
+                if (newName && newEmail && newRole) {
+                    user.name = newName;
+                    user.email = newEmail;
+                    user.role = newRole;
+                    loadUsers();
+                }
+            }
+        }
+
+        function deleteUser(id) {
+            users = users.filter(u => u.id !== id);
+            loadUsers();
+        }
+
+        function logout() {
+            localStorage.removeItem('loggedIn');
+            alert('Bạn đã đăng xuất!');
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>

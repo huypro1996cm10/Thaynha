@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Quản Lý - Admin</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        button {
+            padding: 8px 12px;
+            margin: 5px;
+            border: none;
+            cursor: pointer;
+        }
+        .edit-btn {
+            background-color: #ffc107;
+            color: white;
+        }
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            width: 350px;
+            border-radius: 8px;
+        }
+        .modal h3 {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .modal label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        .modal input, .modal select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .modal button {
+            width: 48%;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .modal button:first-of-type {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .modal button:last-of-type {
+            background-color: #dc3545;
+            color: white;
+        }
+    </style>
+</head>
+<body onload="loadUsers()">
+    <header>
+        <h1>Quản Trị Hệ Thống</h1>
+        <nav>
+            <ul>
+                <li><a href="../formhomeA.html">Trang Chủ</a></li>
+                <li><a href="UserMg.html">Quản lý Người Dùng</a></li>
+                <li><a href="finance.html">Quản lý Tài Chính</a></li>
+                <li><a href="report.html">Báo Cáo & Phân Tích</a></li>
+                <li><a href="settings.html">Cài Đặt</a></li>
+                <li><a href="#" onclick="logout()">Đăng Xuất</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h2>Danh sách Người Dùng</h2>
+        <button onclick="openModal()">Thêm Người Dùng</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tên</th>
+                    <th>Email</th>
+                    <th>Vai Trò</th>
+                    <th>Hành Động</th>
+                </tr>
+            </thead>
+            <tbody id="userTableBody"></tbody>
+        </table>
+    </main>
+    <div id="userModal" class="modal">
+        <h3>Thông tin người dùng</h3>
+        <label>Tên: <input type="text" id="userName"></label>
+        <label>Email: <input type="email" id="userEmail"></label>
+        <label>Vai Trò: 
+            <select id="userRole">
+                <option>Phụ huynh</option>
+                <option>Giảng viên</option>
+            </select>
+        </label>
+        <input type="hidden" id="userId">
+        <button onclick="saveUser()">Lưu</button>
+        <button onclick="closeModal()">Hủy</button>
+    </div>
+    <script>
+        let users = [
+            { id: 1, name: "Nguyễn Văn A", email: "a@example.com", role: "Phụ huynh" },
+            { id: 2, name: "Trần Thị B", email: "b@example.com", role: "Giảng viên" }
+        ];
+
+        function loadUsers() {
+            let tableBody = document.getElementById("userTableBody");
+            tableBody.innerHTML = "";
+            users.forEach(user => {
+                let row = `<tr>
+                    <td>${user.id}</td>
+                    <td>${user.name}</td>
+                    <td>${user.email}</td>
+                    <td>${user.role}</td>
+                    <td>
+                        <button class='edit-btn' onclick="editUser(${user.id})">Sửa</button>
+                        <button class='delete-btn' onclick="deleteUser(${user.id})">Xóa</button>
+                    </td>
+                </tr>`;
+                tableBody.innerHTML += row;
+            });
+        }
+
+        function openModal(user = null) {
+            document.getElementById("userModal").style.display = "block";
+            if (user) {
+                document.getElementById("userId").value = user.id;
+                document.getElementById("userName").value = user.name;
+                document.getElementById("userEmail").value = user.email;
+                document.getElementById("userRole").value = user.role;
+            } else {
+                document.getElementById("userId").value = "";
+                document.getElementById("userName").value = "";
+                document.getElementById("userEmail").value = "";
+                document.getElementById("userRole").value = "Phụ huynh";
+            }
+        }
+
+        function closeModal() {
+            document.getElementById("userModal").style.display = "none";
+        }
+
+        function editUser(id) {
+            let user = users.find(u => u.id === id);
+            if (user) {
+                openModal(user);
+            }
+        }
+
+        loadUsers();
+    </script>
+</body>
+</html>
